@@ -2,31 +2,28 @@ package bowling.game;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class BowlingGameTest {
 
-  @Test
-  void the_score_of_a_game_with_only_miss_pins_is_zero() {
-    String gameWithOnlyMiss = "--|--|--|--|--|--|--|--|--|--||";
-    BowlingGame bowlingGame = BowlingGame.of(gameWithOnlyMiss);
-    int score = bowlingGame.score();
-    assertThat(score).isZero();
-  }
-
-  @Test
-  void the_score_of_a_game_with_one_knocked_pins_is_zero() {
-    String game = "1-|--|--|--|--|--|--|--|--|--||";
+  @ParameterizedTest
+  @MethodSource("scoredGames")
+  void scoring(String game, int expectedScore) {
     BowlingGame bowlingGame = BowlingGame.of(game);
     int score = bowlingGame.score();
-    assertThat(score).isOne();
+    assertThat(score).isEqualTo(expectedScore);
   }
 
-  @Test
-  void the_score_of_this_complex_game_is_167() {
-    String game = "X|7/|9-|X|-8|8/|-6|X|X|X||81";
-    BowlingGame bowlingGame = BowlingGame.of(game);
-    int score = bowlingGame.score();
-    assertThat(score).isEqualTo(167);
+  private static Stream<Arguments> scoredGames() {
+    return Stream.of(
+        Arguments.of("--|--|--|--|--|--|--|--|--|--||", 0),
+        Arguments.of("1-|--|--|--|--|--|--|--|--|--||", 1),
+        Arguments.of("X|X|X|X|X|X|X|X|X|X||XX", 300),
+        Arguments.of("9-|9-|9-|9-|9-|9-|9-|9-|9-|9-||", 90),
+        Arguments.of("5/|5/|5/|5/|5/|5/|5/|5/|5/|5/||5", 150),
+        Arguments.of("X|7/|9-|X|-8|8/|-6|X|X|X||81", 167));
   }
 }

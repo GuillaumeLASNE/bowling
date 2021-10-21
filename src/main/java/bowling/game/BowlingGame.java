@@ -5,10 +5,10 @@ import java.util.Arrays;
 public class BowlingGame {
 
   public static final int NUMBER_OF_FRAMES = 10;
-  public static final char MISS = '-';
-  public static final char SPARE = '/';
-  public static final char STRIKE = 'X';
   public static final String FRAME_SEPARATOR = "|";
+  public static final char STRIKE = 'X';
+  public static final char SPARE = '/';
+  public static final char MISS = '-';
   private final char[] throwArray;
   private final String game;
 
@@ -18,7 +18,7 @@ public class BowlingGame {
   }
 
   public static BowlingGame of(String game) {
-    char[] throwArray = game.replace(FRAME_SEPARATOR, "").concat("--").toCharArray();
+    char[] throwArray = game.replace(FRAME_SEPARATOR, "").toCharArray();
     return new BowlingGame(game, throwArray);
   }
 
