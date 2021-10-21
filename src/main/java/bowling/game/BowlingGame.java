@@ -9,27 +9,36 @@ public class BowlingGame {
   public static final char SPARE = '/';
   public static final char STRIKE = 'X';
   public static final String FRAME_SEPARATOR = "|";
-  private final int[] framesScores;
+  private final char[] throwArray;
   private final String game;
 
-  private BowlingGame(String game, int[] framesScores) {
+  private BowlingGame(String game, char[] throwArray) {
     this.game = game;
-    this.framesScores = framesScores;
+    this.throwArray = throwArray;
   }
 
   public static BowlingGame of(String game) {
     char[] throwArray = game.replace(FRAME_SEPARATOR, "").concat("--").toCharArray();
+    return new BowlingGame(game, throwArray);
+  }
+
+  public int score() {
+    int[] frameScore = getFrameScore();
+    return Arrays.stream(frameScore).sum();
+  }
+
+  private int[] getFrameScore() {
     int[] frameScore = new int[NUMBER_OF_FRAMES];
     int throwIndex = 0;
     for (int i = 0; i < NUMBER_OF_FRAMES; i++) {
-      char firstThrow = throwArray[throwIndex];
-      char secondThrow = throwArray[throwIndex + 1];
-      char thirdThrow = throwArray[throwIndex + 2];
+      int firstThrow = throwIndex;
+      int secondThrow = throwIndex + 1;
+      int thirdThrow = throwIndex + 2;
 
-      if (firstThrow == STRIKE) {
+      if (throwArray[firstThrow] == STRIKE) {
         frameScore[i] = 10 + scoreThrow(secondThrow) + scoreThrow(thirdThrow);
         throwIndex++;
-      } else if (secondThrow == SPARE) {
+      } else if (throwArray[secondThrow] == SPARE) {
         frameScore[i] = 10 + scoreThrow(thirdThrow);
         throwIndex += 2;
       } else {
@@ -37,18 +46,19 @@ public class BowlingGame {
         throwIndex += 2;
       }
     }
-    return new BowlingGame(game, frameScore);
+    return frameScore;
   }
 
-  private static int scoreThrow(char aThrow) {
-    return switch (aThrow) {
+  private int scoreThrow(int throwIndex) {
+    return switch (throwArray[throwIndex]) {
       case STRIKE -> 10;
+      case SPARE -> 10 - scoreThrow(throwIndex - 1);
       case MISS -> 0;
-      default -> Integer.parseInt(String.valueOf(aThrow));
+      default -> parseInt(throwArray[throwIndex]);
     };
   }
 
-  public int score() {
-    return Arrays.stream(framesScores).sum();
+  private int parseInt(char anInt) {
+    return Integer.parseInt(String.valueOf(anInt));
   }
 }
