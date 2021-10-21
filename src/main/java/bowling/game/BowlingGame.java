@@ -13,19 +13,22 @@ public class BowlingGame {
 
   public static BowlingGame of(String game) {
     List<Integer> knockedPins = new ArrayList<>();
-    for (char c:game.toCharArray()) {
-      if(c == '-') {
-        knockedPins.add(0);
+    for (char c : game.toCharArray()) {
+      switch (c) {
+        case '|':
+          break;
+        case '-':
+          knockedPins.add(0);
+          break;
+        default:
+          knockedPins.add(Integer.parseInt(String.valueOf(c)));
+          break;
       }
     }
     return new BowlingGame(knockedPins);
   }
 
   public int score() {
-    return 0;
-  }
-
-  public List<Integer> getKnockedPins() {
-    return knockedPins;
+    return knockedPins.stream().reduce(0, Integer::sum);
   }
 }

@@ -17,11 +17,10 @@ class BowlingGameTest {
   }
 
   @Test
-  void the_knocked_pins_of_a_game_with_only_miss_is_twenty_miss() {
-    String gameWithOnlyMiss = "--|--|--|--|--|--|--|--|--|--||";
-    BowlingGame bowlingGame = BowlingGame.of(gameWithOnlyMiss);
-    List<Integer> twentyMiss = IntStream.iterate(0, x -> 0).limit(20).boxed().toList();
-
-    assertThat(bowlingGame.getKnockedPins()).isEqualTo(twentyMiss);
+  void the_score_of_a_game_with_one_knocked_pins_is_zero() {
+    String game = "1-|--|--|--|--|--|--|--|--|--||";
+    BowlingGame bowlingGame = BowlingGame.of(game);
+    int score = bowlingGame.score();
+    assertThat(score).isOne();
   }
 }
