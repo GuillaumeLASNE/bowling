@@ -26,4 +26,18 @@ class BowlingGameTest {
         Arguments.of("5/|5/|5/|5/|5/|5/|5/|5/|5/|5/||5", 150),
         Arguments.of("X|7/|9-|X|-8|8/|-6|X|X|X||81", 167));
   }
+
+
+  @Test
+  void display_score() {
+    String game = "X|7/|9-|X|-8|8/|-6|X|X|X||81";
+    String printedGame = """
+        __________________________________
+        |X |7/|9-|X |-8|8/|-6|X |X |X ||81|
+        |20|19| 9|18| 8|10| 6|30|28|19||  |
+        -----------------------------------
+        """;
+    BowlingGame bowlingGame = BowlingGame.of(game);
+    assertThat(bowlingGame.print()).isEqualTo(printedGame);
+  }
 }

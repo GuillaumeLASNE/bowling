@@ -27,6 +27,20 @@ public class BowlingGame {
     return Arrays.stream(frameScore).sum();
   }
 
+  public String print() {
+    String displayGame = FRAME_SEPARATOR + game.replace("X", "X ");
+    String displayScore = Arrays.stream(getFrameScore())
+        .boxed()
+        .map(frameScore -> String.format("%2d|", frameScore))
+        .reduce("", String::concat);
+    displayScore = FRAME_SEPARATOR + displayScore + FRAME_SEPARATOR;
+    displayScore += " ".repeat(displayGame.length() - displayScore.length()) + FRAME_SEPARATOR;
+    return "_".repeat(displayGame.length()) + "\n"
+        + displayGame + FRAME_SEPARATOR + "\n"
+        + displayScore + "\n"
+        + "-".repeat(displayScore.length()) + "\n";
+  }
+
   private int[] getFrameScore() {
     int[] frameScore = new int[NUMBER_OF_FRAMES];
     int throwIndex = 0;
