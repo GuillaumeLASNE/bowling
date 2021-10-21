@@ -3,6 +3,7 @@ package bowling.game;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.stream.Stream;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -13,8 +14,7 @@ class BowlingGameTest {
   @MethodSource("scoredGames")
   void scoring(String game, int expectedScore) {
     BowlingGame bowlingGame = BowlingGame.of(game);
-    int score = bowlingGame.score();
-    assertThat(score).isEqualTo(expectedScore);
+    assertThat(bowlingGame.score()).isEqualTo(expectedScore);
   }
 
   private static Stream<Arguments> scoredGames() {
