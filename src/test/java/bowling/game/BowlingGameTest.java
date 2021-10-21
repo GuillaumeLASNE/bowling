@@ -2,12 +2,10 @@ package bowling.game;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.List;
-import java.util.function.Function;
-import java.util.stream.IntStream;
 import org.junit.jupiter.api.Test;
 
 class BowlingGameTest {
+
   @Test
   void the_score_of_a_game_with_only_miss_pins_is_zero() {
     String gameWithOnlyMiss = "--|--|--|--|--|--|--|--|--|--||";
@@ -22,5 +20,13 @@ class BowlingGameTest {
     BowlingGame bowlingGame = BowlingGame.of(game);
     int score = bowlingGame.score();
     assertThat(score).isOne();
+  }
+
+  @Test
+  void the_score_of_this_complex_game_is_167() {
+    String game = "X|7/|9-|X|-8|8/|-6|X|X|X||81";
+    BowlingGame bowlingGame = BowlingGame.of(game);
+    int score = bowlingGame.score();
+    assertThat(score).isEqualTo(167);
   }
 }
